@@ -1,52 +1,56 @@
 const express = require("express")
 const fs = require("fs")
 const path = require("path")
-const muter = require("muter")
+const multer = require("multer")
 
 const app = express()
 const adsFilePath = path.join(__dirname, "data", "ads.json")
-const upload = muter({ storage: storage })
+const uploadsDir = path.join(__dirname, "static", "uploads")
+
+fs.mkdirSync(uploadsDir, { recursive: true })
+
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, uploadsDir)
+    },
+    filename: (req, file, cb) => {
+        const safeName = file.originalname.replace(/\s+/g, "-")
+        cb(null, `${Date.now()}-${safeName}`)
+    }
+})
+
+const upload = multer({ storage })
+
+function readAds() {
+    if (!fs.existsSync(adsFilePath)) {
+        fs.writeFileSync(adsFilePath, "[]", "utf8")
+        return []
+    }
+
+    const data = fs.readFileSync(adsFilePath, "utf8")
+    return JSON.parse(data)
+}
+
+function writeAds(ads) {
+    fs.writeFileSync(adsFilePath, JSON.stringify(ads, null, 2), "utf8")
+}
+
+app.set("view engine", "ejs")
+app.set("views", "views")
 
 app.use(express.static("static"))
 app.use(express.urlencoded({ extended: true }))
 app.use(express.json())
-app.use("uploads", express.static(path.join(__dirname, "static", "uploads")))
+app.use("/uploads", express.static(uploadsDir))
 
 app.use((req, res, next) => {
     console.log(`${req.method} ${req.url}`)
     next()
 })
 
-app.get("/expample", (req, res, next) => {
-    req.userName = "John Doe"
-    next()
-}, (req, res) => {
-    res.send(`Hello, ${req.userName}!`)
-})
-
-const storage = muter.diskStorage({
-    destination: (req, file, cb) => {
-        cb(null, path.join(__dirname, "static", "uploads"))
-    },
-    filename: (req, file, cb) => {
-        cb(null, file.fieldname + "-" + Date.now() + "-" + file.originalname);
-    }
-})
-
-function readAds() {
-    const data = fs.readFileSync(adsFilePath, "utf8")
-    return JSON.parse(data)
-}
-
-function writeAds(ads) {
-    fs.writeFileSync(adsFilePath, JSON.stringify(ads, null, 2))
-}
-
-app.set("view engine", "ejs")
-app.set("views", "views")
-
 app.get("/", (req, res) => {
-    res.render("index")
+    const ads = readAds()
+    res.render("index", { ads })
 })
 
 app.get("/api/ads", (req, res) => {
@@ -54,15 +58,25 @@ app.get("/api/ads", (req, res) => {
     res.json(ads)
 })
 
-app.post("/api/ads", (req, res) => {
-    const { title, description } = req.body || {}
+app.post("/api/ads", upload.single("image"), (req, res) => {
+    const rawBody = req.body || {}
+    const title = rawBody.title || rawBody["ad-title"]
+    const description = rawBody.description || rawBody["ad-description"]
 
     if (!title || !description) {
         return res.status(400).json({ error: "Title and description are required" })
     }
 
     const ads = readAds()
-    const newAd = { title, description }
+    const imageName = req.file ? req.file.filename : ""
+
+    const newAd = {
+        id: Date.now(),
+        title: String(title).trim(),
+        description: String(description).trim(),
+        image: imageName ? [imageName] : []
+    }
+
     ads.push(newAd)
     writeAds(ads)
 

@@ -273,6 +273,17 @@ main {
   font-weight: 900;
 }
 
+.ad-card img {
+  display: block;
+  width: 100%;
+  max-width: 360px;
+  height: 220px;
+  object-fit: cover;
+  border-radius: 0.75rem;
+  border: 3px solid var(--primary-strong);
+  margin: 0 0 1rem;
+}
+
 .ad-card p {
   margin: 0;
   color: var(--text-muted);
@@ -444,5 +455,11 @@ footer {
   .wrapper,
   .modal-content {
     padding: 1.3rem;
+  }
+
+  .ad-card img {
+    max-width: 100%;
+    height: 180px;
+    border-radius: 0.6rem;
   }
 }

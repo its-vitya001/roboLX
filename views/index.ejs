@@ -7,7 +7,22 @@
     <%- include('header') %>
 
     <main>
-        <div class="wrapper"></div>
+        <div class="wrapper">
+            <% if (ads && ads.length) { %>
+                <% ads.forEach((ad) => { %>
+                    <article class="ad-card">
+                        <h2><%= ad.title %></h2>
+                        <p><%= ad.description %></p>
+                        <% if (ad.image && ad.image.length) { %>
+                            <img src="/uploads/<%= ad.image[0] %>" alt="<%= ad.title %>">
+                        <% } %>
+                    </article>
+                <% }) %>
+            <% } else { %>
+                <p class="empty-state">No advertisements yet.</p>
+            <% } %>
+        </div>
+
         <%- include('modal') %>
         <button id="add">+Add Advertisement</button>
     </main>

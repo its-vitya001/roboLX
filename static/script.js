@@ -55,6 +55,14 @@ function renderAds() {
     const title = document.createElement('h2');
     title.textContent = ad.title;
 
+    if (ad.image && ad.image.length) {
+      const image = document.createElement('img');
+      image.src = `/uploads/${ad.image[0]}`;
+      image.alt = ad.title;
+      image.loading = 'lazy';
+      card.appendChild(image);
+    }
+
     const description = document.createElement('p');
     description.textContent = ad.description;
 
@@ -113,20 +121,12 @@ form?.addEventListener('submit', async (event) => {
   try {
     const response = await fetch('/api/ads', {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ title, description })
+      body: formData
     });
 
     if (!response.ok) {
       throw new Error('Failed to add advertisement');
     }
-
-    fetch('/api/add', {
-      method: 'POST',
-      body: new FormData(e.target)
-    }).then(location.reload());
 
     const data = await response.json();
     ads = data.ads;
