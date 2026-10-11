@@ -1,0 +1,190 @@
+$navy-950: #06101d;
+$navy-900: #0b1d34;
+$navy-800: #12315b;
+$navy-700: #1a427b;
+$navy-600: #215498;
+$navy-500: #2d6bc0;
+$navy-200: #c5d8f7;
+$navy-100: #edf3ff;
+$white: #ffffff;
+$surface: #f7f9fd;
+$surface-strong: #edf4ff;
+$ink: #0d2240;
+$ink-soft: #324a6d;
+$line: #173c69;
+
+$theme-base: (
+  navy-950: $navy-950,
+  navy-900: $navy-900,
+  navy-800: $navy-800,
+  navy-700: $navy-700,
+  navy-600: $navy-600,
+  navy-500: $navy-500,
+  navy-200: $navy-200,
+  navy-100: $navy-100,
+  white: $white,
+  surface: $surface,
+  surface-strong: $surface-strong,
+  ink: $ink,
+  ink-soft: $ink-soft,
+  line: $line,
+  bg: $surface,
+  panel: $white,
+  panel-strong: $surface-strong,
+  text: $ink,
+  text-muted: $ink-soft,
+  primary: $navy-700,
+  primary-strong: $navy-800,
+  primary-soft: $navy-500,
+  border: $line,
+  button-text: $white,
+);
+
+$themes: (
+  navy: (
+    bg: #f7f9fd,
+    panel: #ffffff,
+    panel-strong: #edf4ff,
+    text: #0d2240,
+    text-muted: #324a6d,
+    primary: #1a427b,
+    primary-strong: #12315b,
+    primary-soft: #2d6bc0,
+    border: #173c69,
+    button-text: #ffffff,
+    input-bg: #ffffff,
+  ),
+  navy-dark: (
+    bg: #081420,
+    panel: #0f1d31,
+    panel-strong: #142844,
+    text: #edf5ff,
+    text-muted: #bfd0eb,
+    primary: #2f5ca8,
+    primary-strong: #173a67,
+    primary-soft: #6d8fc8,
+    border: #9bb5d9,
+    button-text: #f2f7ff,
+    input-bg: #0a1829,
+  ),
+  red: (
+    bg: #fff7f7,
+    panel: #ffffff,
+    panel-strong: #ffeceb,
+    text: #1f0d0d,
+    text-muted: #5d2c2c,
+    primary: #9f1d1d,
+    primary-strong: #6d0d0d,
+    primary-soft: #d43d3d,
+    border: #670b0b,
+    button-text: #fff7f7,
+    input-bg: #ffffff,
+  ),
+  red-dark: (
+    bg: #180b0b,
+    panel: #251111,
+    panel-strong: #341a1a,
+    text: #fff0f0,
+    text-muted: #f5b7b7,
+    primary: #c22d2d,
+    primary-strong: #7d1717,
+    primary-soft: #e36d6d,
+    border: #f2b4b4,
+    button-text: #fff7f7,
+    input-bg: #1c0909,
+  ),
+  green: (
+    bg: #f5fff8,
+    panel: #ffffff,
+    panel-strong: #ebfff0,
+    text: #102a1b,
+    text-muted: #264e38,
+    primary: #1b6b3e,
+    primary-strong: #0d492d,
+    primary-soft: #35a067,
+    border: #0b3d26,
+    button-text: #effff5,
+    input-bg: #ffffff,
+  ),
+  green-dark: (
+    bg: #091811,
+    panel: #11281d,
+    panel-strong: #173625,
+    text: #eefdf2,
+    text-muted: #b9e7c6,
+    primary: #2e8a56,
+    primary-strong: #12472f,
+    primary-soft: #6abf8d,
+    border: #c0ebcf,
+    button-text: #f1fff4,
+    input-bg: #0a1b12,
+  ),
+  gold: (
+    bg: #fffaf1,
+    panel: #ffffff,
+    panel-strong: #fff1cf,
+    text: #2f240d,
+    text-muted: #5e4721,
+    primary: #b8861a,
+    primary-strong: #7d5a0c,
+    primary-soft: #e0b74d,
+    border: #6b4b0d,
+    button-text: #fffef9,
+    input-bg: #ffffff,
+  ),
+  gold-dark: (
+    bg: #181309,
+    panel: #241d10,
+    panel-strong: #322615,
+    text: #fff8e5,
+    text-muted: #f5dca5,
+    primary: #d5a127,
+    primary-strong: #815f0e,
+    primary-soft: #e7c96d,
+    border: #f3d38b,
+    button-text: #fffaf0,
+    input-bg: #1d1307,
+  ),
+);
+
+@function theme-color($theme-name, $key) {
+  @return map-get(map-get($themes, $theme-name), $key);
+}
+
+@mixin theme-vars($theme-name) {
+  @each $key, $value in map-get($themes, $theme-name) {
+    --#{$key}: #{$value};
+  }
+}
+
+:root {
+  @include theme-vars(navy);
+}
+
+body[data-theme='navy-dark'] {
+  @include theme-vars(navy-dark);
+}
+
+body[data-theme='red'] {
+  @include theme-vars(red);
+}
+
+body[data-theme='red-dark'] {
+  @include theme-vars(red-dark);
+}
+
+body[data-theme='green'] {
+  @include theme-vars(green);
+}
+
+body[data-theme='green-dark'] {
+  @include theme-vars(green-dark);
+}
+
+body[data-theme='gold'] {
+  @include theme-vars(gold);
+}
+
+body[data-theme='gold-dark'] {
+  @include theme-vars(gold-dark);
+}

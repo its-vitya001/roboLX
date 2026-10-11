@@ -1,10 +1,12 @@
 {
   "dependencies": {
     "chalk": "^6.0.1",
+    "concurrently": "^10.0.6",
     "ejs": "^6.0.1",
     "express": "^5.2.1",
     "multer": "^2.4.0",
-    "muter": "^0.7.0"
+    "muter": "^0.7.0",
+    "sass": "^1.105.1"
   },
   "name": "l2",
   "version": "1.0.0",
@@ -12,7 +14,9 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon server.js"
+    "dev": "concurrently \"npm run server\" \"npm run sass\"",
+    "sass": "sass --watch styles/style.scss:static/style.css",
+    "server": "nodemon server.js"
   },
   "keywords": [],
   "author": "",
