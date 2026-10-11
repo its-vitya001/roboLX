@@ -1,8 +1,9 @@
-@import "./base/colors.scss";
-@import "./base/typography.scss";
-@import "./base/clearDefault.scss";
-@import "./components/modal.scss";
-@import "./components/ads.scss";
+@import "./base/colors";
+@import "./base/typography";
+@import "./base/clearDefault";
+@import "./components/modal";
+@import "./components/ads";
+@import "./base/_mixins"
 
 body {
   background: linear-gradient(180deg, var(--bg) 0%, var(--panel-strong) 100%);

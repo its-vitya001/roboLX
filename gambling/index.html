@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Lucky Reels</title>
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <main class="game-shell">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow">Arcade casino</p>
+          <h1>Lucky Reels</h1>
+        </div>
+        <div class="stats">
+          <div class="stat-card">
+            <span>Balance</span>
+            <strong id="balance">100</strong>
+          </div>
+          <div class="stat-card">
+            <span>Bet</span>
+            <strong id="bet-value">10</strong>
+          </div>
+        </div>
+      </header>
+
+      <section class="reels" aria-label="Slot machine reels">
+        <div class="reel" id="reel-1">7</div>
+        <div class="reel" id="reel-2">7</div>
+        <div class="reel" id="reel-3">7</div>
+      </section>
+
+      <div class="controls">
+        <label for="bet-select">Choose bet</label>
+        <select id="bet-select">
+          <option value="5">5</option>
+          <option value="10" selected>10</option>
+          <option value="25">25</option>
+          <option value="50">50</option>
+        </select>
+
+        <button id="spin-btn" type="button">Spin</button>
+        <button id="reset-btn" class="secondary" type="button">Reset</button>
+      </div>
+
+      <p id="result" class="result" aria-live="polite">Ready to play.</p>
+
+      <section class="paytable">
+        <h2>Payouts</h2>
+        <ul>
+          <li>3x 7 = 25x bet</li>
+          <li>3 matching symbols = 10x bet</li>
+          <li>2 matching symbols = 2x bet</li>
+        </ul>
+      </section>
+    </main>
+
+    <script src="./script.js"></script>
+  </body>
+</html>
